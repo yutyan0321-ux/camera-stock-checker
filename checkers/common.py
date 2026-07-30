@@ -5,15 +5,10 @@
 import time
 
 import re
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 _HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
     "Accept": (
         "text/html,application/xhtml+xml,application/xml;q=0.9,"
         "image/webp,*/*;q=0.8"
@@ -28,13 +23,19 @@ def fetch_text(url: str, timeout: int = 30, retries: int = 2) -> str:
     ページを取得し、HTMLタグを除いた visible text を返す。
     判定ロジック（マーカー文字列の有無）はこのテキストに対して行う。
 
+    curl_cffi の impersonate="chrome" を使うことで、TLS/JA3の指紋レベルで
+    本物のChromeブラウザに近づけている（requestsのUser-Agent偽装だけでは
+    TLSハンドシェイクの特徴でBotだと見抜かれることがあるため）。
+
     一時的なタイムアウトなどに備えて、失敗時は少し待ってから
     数回リトライする。
     """
     last_error = None
     for attempt in range(retries + 1):
         try:
-            resp = requests.get(url, headers=_HEADERS, timeout=timeout)
+            resp = requests.get(
+                url, headers=_HEADERS, timeout=timeout, impersonate="chrome"
+            )
             resp.raise_for_status()
             soup = BeautifulSoup(resp.text, "html.parser")
 
@@ -43,7 +44,7 @@ def fetch_text(url: str, timeout: int = 30, retries: int = 2) -> str:
                 tag.decompose()
 
             return soup.get_text(separator="\n")
-        except requests.RequestException as e:
+        except Exception as e:
             last_error = e
             if attempt < retries:
                 time.sleep(3)
