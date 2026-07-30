@@ -1,0 +1,56 @@
+# 監視したい商品とサイトの一覧。
+#
+# 商品を増やしたいとき:
+#   - products の下に新しい項目を追加するだけでOK。
+#
+# 監視サイトを増やしたいとき:
+#   1. checkers/ フォルダに新しいチェッカー（例: yodobashi.py）を作る
+#   2. check_stock.py の CHECKERS 辞書に登録する
+#   3. ここの sites に site: "yodobashi" として追加する
+#
+# 各サイトの item:
+#   site      : checkers/ 内のモジュール名（canon_official, yamada, biccamera, kakaku_kaago）
+#   url       : 監視したい商品ページのURL
+#   price_min / price_max : 価格帯で絞り込みたい場合のみ指定（kakaku_kaago で使用）
+#
+# url が空文字("")の項目はスキップされます（未確定のURLを後から埋める用）。
+
+products:
+  - id: g7x_mark3
+    name: "PowerShot G7 X Mark III"
+    sites:
+      - site: canon_official
+        url: "https://store.canon.jp/online/g/gPS-G7XMK3-001/"
+
+      - site: yamada
+        # シルバーのページ。ブラックも監視したい場合はURLを調べて
+        # 下に項目を追加してください（同じ site: yamada でOK）。
+        url: "https://www.yamada-denkiweb.com/4152311014"
+
+      - site: biccamera
+        url: "https://www.biccamera.com/bc/item/6944999/"
+
+      - site: kakaku_kaago
+        url: "https://kakaku.com/item/J0000030692/"
+        price_min: 140000
+        price_max: 179999
+
+  - id: sx740hs
+    name: "PowerShot SX740 HS"
+    sites:
+      - site: canon_official
+        url: "https://store.canon.jp/online/g/gPS-SX740-003/"
+
+      - site: yamada
+        # TODO: ヤマダウェブコムのSX740 HS商品ページURLが未確定です。
+        # https://www.yamada-denkiweb.com/ で検索して商品ページURLを
+        # ここに入れてください（例: https://www.yamada-denkiweb.com/xxxxxxxxx）
+        url: ""
+
+      - site: biccamera
+        url: "https://www.biccamera.com/bc/item/5574356/"
+
+      - site: kakaku_kaago
+        url: "https://kakaku.com/item/K0001076574/"
+        price_min: 75000
+        price_max: 85999
