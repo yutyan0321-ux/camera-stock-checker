@@ -181,10 +181,12 @@ def main() -> int:
                 f"(累計入荷検知: {count}回)"
             )
             # rakuten_searchのように複数候補が見つかるサイトでは、
-            # 安い順の一覧も detail に入っているので合わせて表示する。
+            # 安い順の一覧（各候補のURL込み）が detail に入っているので
+            # そちらを表示し、重複する単独のurl行は出さない。
             if site_key == "rakuten_search" and result.get("detail"):
                 lines.append(result["detail"])
-            lines.append(result["url"])
+            else:
+                lines.append(result["url"])
 
     if broken_links:
         if lines:
