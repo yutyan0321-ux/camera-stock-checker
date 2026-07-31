@@ -94,7 +94,7 @@ def main() -> int:
     config = load_config()
     previous_state = load_previous_state()
     new_state = {}
-    notifications = []  # (product_name, site_key, result) のリスト
+    notifications = []  # (product_name, site_key, result, count) のリスト
     broken_links = []  # (product_name, site_key, url) のリスト
 
     for product in config["products"]:
@@ -180,6 +180,10 @@ def main() -> int:
                 f"■ {product_name} ({site_key}){price_part} "
                 f"(累計入荷検知: {count}回)"
             )
+            # rakuten_searchのように複数候補が見つかるサイトでは、
+            # 安い順の一覧も detail に入っているので合わせて表示する。
+            if site_key == "rakuten_search" and result.get("detail"):
+                lines.append(result["detail"])
             lines.append(result["url"])
 
     if broken_links:
