@@ -18,6 +18,40 @@ _HEADERS = {
 }
 
 
+def _fetch_response(url: str, timeout: int = 30, retries: int = 2):
+    """ページを取得し、requestsのレスポンスオブジェクトを返す（内部用）。"""
+    last_error = None
+    for attempt in range(retries + 1):
+        try:
+            resp = requests.get(
+                url, headers=_HEADERS, timeout=timeout, impersonate="chrome"
+            )
+            resp.raise_for_status()
+            return resp
+        except Exception as e:
+            last_error = e
+            if attempt < retries:
+                time.sleep(3)
+    raise last_error
+
+
+def fetch_soup(url: str, timeout: int = 30, retries: int = 2) -> BeautifulSoup:
+    """
+    ページを取得し、BeautifulSoupオブジェクトをそのまま返す。
+
+    fetch_text() と違い、リンク(href)などのHTML構造を保持したまま扱える。
+    検索結果ページのように「1ページに複数の商品が並ぶ」ものを解析する
+    ときは、こちらを使ってリンクごとに商品を区別する必要がある
+    （fetch_text() はリンク情報を失った「見た目のテキストだけ」を返す
+    ため、商品の区切りやURLが分からなくなってしまう）。
+    """
+    resp = _fetch_response(url, timeout=timeout, retries=retries)
+    soup = BeautifulSoup(resp.text, "html.parser")
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+    return soup
+
+
 def fetch_text(url: str, timeout: int = 30, retries: int = 2) -> str:
     """
     ページを取得し、HTMLタグを除いた visible text を返す。
@@ -26,29 +60,9 @@ def fetch_text(url: str, timeout: int = 30, retries: int = 2) -> str:
     curl_cffi の impersonate="chrome" を使うことで、TLS/JA3の指紋レベルで
     本物のChromeブラウザに近づけている（requestsのUser-Agent偽装だけでは
     TLSハンドシェイクの特徴でBotだと見抜かれることがあるため）。
-
-    一時的なタイムアウトなどに備えて、失敗時は少し待ってから
-    数回リトライする。
     """
-    last_error = None
-    for attempt in range(retries + 1):
-        try:
-            resp = requests.get(
-                url, headers=_HEADERS, timeout=timeout, impersonate="chrome"
-            )
-            resp.raise_for_status()
-            soup = BeautifulSoup(resp.text, "html.parser")
-
-            # script/style は文言判定のノイズになるので除去
-            for tag in soup(["script", "style"]):
-                tag.decompose()
-
-            return soup.get_text(separator="\n")
-        except Exception as e:
-            last_error = e
-            if attempt < retries:
-                time.sleep(3)
-    raise last_error
+    soup = fetch_soup(url, timeout=timeout, retries=retries)
+    return soup.get_text(separator="\n")
 
 
 def extract_prices(text: str) -> list[int]:
