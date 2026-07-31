@@ -19,7 +19,15 @@ from pathlib import Path
 import requests
 import yaml
 
-from checkers import canon_official, yamada, biccamera, kakaku_kaago, kaago, rakuten
+from checkers import (
+    canon_official,
+    yamada,
+    biccamera,
+    kakaku_kaago,
+    kaago,
+    rakuten,
+    rakuten_search,
+)
 
 # サイトキー(config内のsite:の値) -> チェッカー関数 の対応表。
 # 新しいサイトを追加するときは、checkers/ に新しいモジュールを作って
@@ -31,6 +39,7 @@ CHECKERS = {
     "kakaku_kaago": kakaku_kaago.check,
     "kaago": kaago.check,
     "rakuten": rakuten.check,
+    "rakuten_search": rakuten_search.check,
 }
 
 BASE_DIR = Path(__file__).parent
