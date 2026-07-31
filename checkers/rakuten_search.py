@@ -19,6 +19,13 @@
 
 なお楽天の検索は既定で「売り切れ商品」を結果に含めない仕様のため、
 在庫なしの商品を別途除外する処理は不要。
+
+【実装メモ】
+検索結果ページには商品ごとのリンク(<a href="https://item.rakuten.co.jp/...">)
+が並んでいる。これを common.fetch_soup() でHTML構造ごと取得し、
+リンクのhrefで商品を区別する（common.fetch_text()のような「見た目の
+テキストだけ」の抽出だと、リンクの区切りが失われて商品ごとに
+価格を対応づけられなくなるため、これは使わない）。
 """
 
 import re
@@ -27,9 +34,10 @@ from urllib.parse import quote_plus
 from . import common
 from .rakuten import USED_ITEM_MARKERS
 
-# 検索結果ページの各出品は "## [商品名](URL " という見出し形式で
-# 現れる（common.fetch_text はページをMarkdown風のテキストに変換する）。
-ITEM_HEADING_PATTERN = re.compile(r"## \[([^\]]+)\]\(([^)\s]+)")
+ITEM_URL_PATTERN = re.compile(r"^https://item\.rakuten\.co\.jp/")
+
+# 価格を含んでいそうな塊かどうかの簡易判定（¥や円が入っているか）
+_PRICE_HINT_PATTERN = re.compile(r"[¥￥]|\d[\d,]{3,}\s*円")
 
 
 def _build_search_url(keyword: str, price_min: int, price_max: int) -> str:
@@ -38,6 +46,25 @@ def _build_search_url(keyword: str, price_min: int, price_max: int) -> str:
         f"https://search.rakuten.co.jp/search/mall/{encoded_keyword}/"
         f"?min={price_min}&max={price_max}"
     )
+
+
+def _find_price_block(anchor, max_levels: int = 5) -> str:
+    """
+    商品リンクの周辺テキストから、価格が書かれていそうな最小のブロックを
+    探す。親要素を1階層ずつさかのぼり、価格らしき文字列(¥や円)が
+    含まれた時点のテキストを返す。
+    見つからなければ最後にたどり着いた階層のテキストを返す。
+    """
+    node = anchor
+    block_text = anchor.get_text(separator=" ")
+    for _ in range(max_levels):
+        if node.parent is None:
+            break
+        node = node.parent
+        block_text = node.get_text(separator=" ")
+        if _PRICE_HINT_PATTERN.search(block_text):
+            break
+    return block_text
 
 
 def check(site_config: dict) -> dict:
@@ -52,19 +79,27 @@ def check(site_config: dict) -> dict:
         )
 
     url = _build_search_url(keyword, price_min, price_max)
-    text = common.fetch_text(url)
+    soup = common.fetch_soup(url)
 
-    matches = list(ITEM_HEADING_PATTERN.finditer(text))
+    seen_hrefs = set()
     found = []  # (title, item_url, price) のリスト
 
-    for i, m in enumerate(matches):
-        title = m.group(1)
-        item_url = m.group(2)
-        block_start = m.end()
-        block_end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
-        block = text[block_start:block_end]
+    for anchor in soup.find_all("a", href=True):
+        href = anchor["href"]
+        if not ITEM_URL_PATTERN.match(href):
+            continue
 
-        # 無関係なアクセサリー等を除外（商品名に必須キーワードが無ければスキップ）
+        title = anchor.get_text(strip=True)
+        if not title:
+            # 画像だけのリンク（テキストが無い）は商品タイトルの
+            # リンクではないのでスキップする。
+            continue
+
+        if href in seen_hrefs:
+            continue
+        seen_hrefs.add(href)
+
+        # 無関係なアクセサリー等を除外
         # 「G7 X」「G7X」のような表記ゆれを吸収するため、空白を除いて比較する。
         normalized_title = title.replace(" ", "").replace("　", "")
         if required_keywords and not all(
@@ -73,13 +108,17 @@ def check(site_config: dict) -> dict:
             continue
 
         # 中古品を除外
-        if common.contains_any(title + block, USED_ITEM_MARKERS):
+        if common.contains_any(title, USED_ITEM_MARKERS):
             continue
 
-        prices = common.extract_prices(title + block)
+        block_text = _find_price_block(anchor)
+        if common.contains_any(block_text, USED_ITEM_MARKERS):
+            continue
+
+        prices = common.extract_prices(title + " " + block_text)
         matched_prices = [p for p in prices if price_min <= p <= price_max]
         if matched_prices:
-            found.append((title, item_url, matched_prices[0]))
+            found.append((title, href, matched_prices[0]))
 
     in_stock = len(found) > 0
 
