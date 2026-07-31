@@ -9,15 +9,23 @@
 #   3. ここの sites に site: "yodobashi" として追加する
 #
 # 各サイトの item:
-#   site      : checkers/ 内のモジュール名（kaago）
-#   url       : 監視したいショップの商品ページURL
-#   price_min / price_max : 価格帯で絞り込みたい場合のみ指定（kaago で使用）
+#   site      : checkers/ 内のモジュール名
+#   url       : （kaago, rakuten で使用）監視したいショップの商品ページURL
+#   keyword   : （rakuten_search で使用）検索キーワード
+#   required_keywords : （rakuten_search で使用）無関係な商品を除外するための
+#                        必須キーワード（空白の有無は自動で吸収される）
+#   price_min / price_max : 価格帯で絞り込みたい場合のみ指定
 #
 # 注記: Kaago(kaago.com)は1つのURLに全ショップの価格が集約されて
 # いるわけではなく、ショップごとに個別の商品ページがある。そのため
 # 同じ商品でも複数のショップURLを別々の項目として登録している。
+# （Kaagoは検索結果ページのURLがまだ確認できていないため、この方式のまま）
 #
-# 注記2: キヤノン公式・ヤマダウェブコム・ビックカメラはBot対策で
+# 注記2: 楽天市場は rakuten_search（検索結果ページを丸ごと見る方式）に
+# 統一した。個別ショップのURLを登録する必要がなく、新しく出品を始めた
+# ショップも自動的に拾える。
+#
+# 注記3: キヤノン公式・ヤマダウェブコム・ビックカメラはBot対策で
 # GitHub Actionsからの取得がブロックされる（または不安定な誤検知を返す）
 # ことが確認できたため、この3サイトの監視は SIGNAL WebAlert 側に任せている。
 
@@ -50,20 +58,14 @@ products:
         price_max: 179999
 
       - site: kaago
-        # Fresh shop（ブラック）
-        url: "https://kaago.com/fresh345/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=6921489901820"
-        price_min: 140000
-        price_max: 179999
-
-      - site: kaago
         # デジスタイル（シルバー）
         url: "https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871"
         price_min: 140000
         price_max: 179999
 
-      - site: rakuten
-        # G-Mach 楽天市場店（シルバー、新品）
-        url: "https://item.rakuten.co.jp/g-mach/s137804/"
+      - site: rakuten_search
+        keyword: "PowerShot G7 X Mark III"
+        required_keywords: ["G7 X Mark III"]
         price_min: 140000
         price_max: 179999
 
@@ -130,26 +132,8 @@ products:
         price_min: 75000
         price_max: 85999
 
-      - site: rakuten
-        # XPRICE楽天市場店（シルバー、新品）
-        url: "https://item.rakuten.co.jp/a-price/4549292119060/"
-        price_min: 75000
-        price_max: 85999
-
-      - site: rakuten
-        # カメラのキタムラ（ブラック、新品）
-        url: "https://item.rakuten.co.jp/emedama/4549292119008/"
-        price_min: 75000
-        price_max: 85999
-
-      - site: rakuten
-        # 楽天24（シルバー、新品）
-        url: "https://item.rakuten.co.jp/rakuten24/4549292119060/"
-        price_min: 75000
-        price_max: 85999
-
-      - site: rakuten
-        # ネコサン商店（シルバー、新品）
-        url: "https://item.rakuten.co.jp/nekosansyouten/202406202048564549292119060/"
+      - site: rakuten_search
+        keyword: "PowerShot SX740 HS"
+        required_keywords: ["SX740"]
         price_min: 75000
         price_max: 85999
