@@ -47,5 +47,5 @@ products:
 
       - site: kakaku_kaago
         url: "https://kakaku.com/item/K0001076574/"
-        price_min: 75000
-        price_max: 85999
+        price_min: 0
+        price_max: 999999999
