@@ -1,9 +1,18 @@
 {
-  "g7x_mark3:canon_official:https://store.canon.jp/online/g/gPS-G7XMK3-001/": false,
-  "g7x_mark3:yamada:https://www.yamada-denkiweb.com/4152311014": false,
-  "g7x_mark3:biccamera:https://www.biccamera.com/bc/item/6944999/": true,
-  "g7x_mark3:kakaku_kaago:https://kakaku.com/item/J0000030692/": false,
-  "sx740hs:canon_official:https://store.canon.jp/online/g/gPS-SX740-003/": false,
-  "sx740hs:biccamera:https://www.biccamera.com/bc/item/5574356/": true,
-  "sx740hs:kakaku_kaago:https://kakaku.com/item/K0001076574/": false
+  "g7x_mark3:kaago:https://kaago.com/sharanoki-plus/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743": false,
+  "g7x_mark3:kaago:https://kaago.com/kaagos-saletokka/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=7350071077819": false,
+  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743": false,
+  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292137804": false,
+  "g7x_mark3:kaago:https://kaago.com/fresh345/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=6921489901820": false,
+  "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871": false,
+  "sx740hs:kaago:https://kaago.com/sokutei/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060": false,
+  "sx740hs:kaago:https://kaago.com/sharanoki/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060": false,
+  "sx740hs:kaago:https://kaago.com/sharanoki-plus/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060": false,
+  "sx740hs:kaago:https://kaago.com/sharanoki/PowerShot-SX740-HS-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292119008": false,
+  "sx740hs:kaago:https://kaago.com/arch8215/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=9700000002406": false,
+  "sx740hs:kaago:https://kaago.com/powershop/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4984824418708": true,
+  "sx740hs:kaago:https://kaago.com/getonstore/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000001434": true,
+  "sx740hs:kaago:https://kaago.com/chachacom/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC-PS-SX740HS-SL%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000122792": false,
+  "sx740hs:kaago:https://kaago.com/chachacom/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF-PS-SX740HS-BK%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000122793": false,
+  "sx740hs:kaago:https://kaago.com/momolife/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC-PS-SX740HS-SL%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000121632": false
 }
