@@ -14,6 +14,12 @@
 
 1で除外されず、2と3の両方を満たした場合のみ「検知（在庫あり）」
 とみなす。
+
+楽天のページは「この商品を買った人はこんな商品も」のような、本体と
+無関係なおすすめ商品が同じページ内に大量に並んでいる。ページ全体
+から価格を拾うとこの無関係な価格を誤検知してしまうため、そうした
+セクションの見出しが現れた時点で本文を打ち切り、それより前の部分
+（本体の情報が載っている部分）だけを判定対象にする。
 """
 
 from . import common
@@ -39,6 +45,30 @@ OUT_OF_STOCK_MARKERS = [
     "完売",
 ]
 
+# これらの見出しが出てきたら、それ以降は「おすすめ商品」など無関係な
+# セクションとみなし、判定対象から除外する。
+UNRELATED_SECTION_MARKERS = [
+    "この商品を買った",
+    "こちらもおすすめ",
+    "スタッフのおすすめ",
+    "人気ランキング",
+    "併せて買われている",
+    "関連商品",
+    "この店舗の人気商品",
+    "おすすめ商品",
+    "他のお客様はこちらも購入",
+]
+
+
+def _main_content_only(text: str) -> str:
+    """無関係なおすすめ商品セクションより前の部分だけを切り出す。"""
+    cutoff = len(text)
+    for marker in UNRELATED_SECTION_MARKERS:
+        idx = text.find(marker)
+        if idx != -1 and idx < cutoff:
+            cutoff = idx
+    return text[:cutoff]
+
 
 def check(site_config: dict) -> dict:
     url = site_config["url"]
@@ -50,7 +80,8 @@ def check(site_config: dict) -> dict:
             "rakuten サイトには price_min と price_max の指定が必要です"
         )
 
-    text = common.fetch_text(url)
+    full_text = common.fetch_text(url)
+    text = _main_content_only(full_text)
 
     # 中古品を示す文言があれば、価格や在庫状況に関わらず除外する
     used_marker = common.contains_any(text, USED_ITEM_MARKERS)
