@@ -94,7 +94,7 @@ def main() -> int:
     config = load_config()
     previous_state = load_previous_state()
     new_state = {}
-    notifications = []  # (product_name, site_key, result, count) のリスト
+    notifications = []  # (product_name, site_key, result) のリスト
     broken_links = []  # (product_name, site_key, url) のリスト
 
     for product in config["products"]:
@@ -103,12 +103,14 @@ def main() -> int:
 
         for site_entry in product["sites"]:
             site_key = site_entry["site"]
-            url = site_entry.get("url", "")
-            state_key = f"{product_id}:{site_key}:{url}"
+            # url を使うサイト(kaago, rakuten等)と keyword を使うサイト
+            # (rakuten_search)があるため、どちらか存在する方を識別子にする。
+            identifier = site_entry.get("url") or site_entry.get("keyword", "")
+            state_key = f"{product_id}:{site_key}:{identifier}"
             error_key = f"{state_key}#error"
 
-            if not url:
-                print(f"[skip] {product_name} / {site_key}: URL未設定")
+            if not identifier:
+                print(f"[skip] {product_name} / {site_key}: URL/keyword未設定")
                 continue
 
             checker = CHECKERS.get(site_key)
@@ -131,7 +133,7 @@ def main() -> int:
                 was_broken = previous_state.get(error_key, False)
                 new_state[error_key] = is_broken
                 if is_broken and not was_broken:
-                    broken_links.append((product_name, site_key, url))
+                    broken_links.append((product_name, site_key, identifier))
                 continue
 
             new_state[error_key] = False
