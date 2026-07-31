@@ -61,6 +61,12 @@ products:
         price_min: 140000
         price_max: 179999
 
+      - site: rakuten
+        # G-Mach 楽天市場店（シルバー、新品）
+        url: "https://item.rakuten.co.jp/g-mach/s137804/"
+        price_min: 140000
+        price_max: 179999
+
   - id: sx740hs
     name: "PowerShot SX740 HS"
     sites:
@@ -121,5 +127,29 @@ products:
       - site: kaago
         # SAKURA MOMO（シルバー）
         url: "https://kaago.com/momolife/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC-PS-SX740HS-SL%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000121632"
+        price_min: 75000
+        price_max: 85999
+
+      - site: rakuten
+        # XPRICE楽天市場店（シルバー、新品）
+        url: "https://item.rakuten.co.jp/a-price/4549292119060/"
+        price_min: 75000
+        price_max: 85999
+
+      - site: rakuten
+        # カメラのキタムラ（ブラック、新品）
+        url: "https://item.rakuten.co.jp/emedama/4549292119008/"
+        price_min: 75000
+        price_max: 85999
+
+      - site: rakuten
+        # 楽天24（シルバー、新品）
+        url: "https://item.rakuten.co.jp/rakuten24/4549292119060/"
+        price_min: 75000
+        price_max: 85999
+
+      - site: rakuten
+        # ネコサン商店（シルバー、新品）
+        url: "https://item.rakuten.co.jp/nekosansyouten/202406202048564549292119060/"
         price_min: 75000
         price_max: 85999
