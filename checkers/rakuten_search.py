@@ -39,6 +39,25 @@ ITEM_URL_PATTERN = re.compile(r"^https://item\.rakuten\.co\.jp/")
 # 価格を含んでいそうな塊かどうかの簡易判定（¥や円が入っているか）
 _PRICE_HINT_PATTERN = re.compile(r"[¥￥]|\d[\d,]{3,}\s*円")
 
+# カメラ本体ではなく付属品・アクセサリーであることを示す語。
+# 「SX740対応」のような形でカメラ本体の型番を含んでしまう
+# 保護フィルム・ケース・バッテリー等を誤検知しないよう除外する。
+ACCESSORY_MARKERS = [
+    "フィルム",
+    "ガラスフィルム",
+    "保護フィルム",
+    "ケース",
+    "カバー",
+    "ストラップ",
+    "互換品",
+    "互換バッテリー",
+    "バッテリー",
+    "液晶保護",
+    "レンズフィルター",
+    "レンズキャップ",
+    "スクリーンプロテクター",
+]
+
 
 def _build_search_url(keyword: str, price_min: int, price_max: int) -> str:
     encoded_keyword = quote_plus(keyword)
@@ -48,7 +67,7 @@ def _build_search_url(keyword: str, price_min: int, price_max: int) -> str:
     )
 
 
-def _find_price_block(anchor, max_levels: int = 5) -> str:
+def _find_price_block(anchor, max_levels: int = 3) -> str:
     """
     商品リンクの周辺テキストから、価格が書かれていそうな最小のブロックを
     探す。親要素を1階層ずつさかのぼり、価格らしき文字列(¥や円)が
@@ -109,6 +128,10 @@ def check(site_config: dict) -> dict:
 
         # 中古品を除外
         if common.contains_any(title, USED_ITEM_MARKERS):
+            continue
+
+        # アクセサリー・付属品を除外（カメラ本体ではないため）
+        if common.contains_any(title, ACCESSORY_MARKERS):
             continue
 
         block_text = _find_price_block(anchor)
