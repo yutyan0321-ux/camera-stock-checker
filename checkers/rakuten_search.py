@@ -151,9 +151,13 @@ def check(site_config: dict) -> dict:
         cheapest_title, cheapest_url, cheapest_price = found[0]
 
         top_candidates = found[:5]
-        candidates_text = " / ".join(
-            f"{t} ¥{p:,}" for t, _, p in top_candidates
-        )
+        # 候補ごとに「タイトル・価格・URL」を1行ずつ並べる
+        # （URLが無いと候補を見ても開けないため、必ず含める）。
+        candidates_lines = [
+            f"{i}. {t} ¥{p:,}\n{u}"
+            for i, (t, u, p) in enumerate(top_candidates, start=1)
+        ]
+        candidates_text = "\n".join(candidates_lines)
         detail = (
             f"{len(found)}件の該当出品を検出（安い順）: {candidates_text}"
         )
