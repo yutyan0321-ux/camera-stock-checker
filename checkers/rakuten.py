@@ -33,6 +33,8 @@ USED_ITEM_MARKERS = [
     "キズあり",
     "難あり",
     "動作確認済み",
+    "印あり",
+    "他店印",
 ]
 
 OUT_OF_STOCK_MARKERS = [
