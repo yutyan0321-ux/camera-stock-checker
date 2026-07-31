@@ -135,5 +135,5 @@ products:
       - site: rakuten_search
         keyword: "PowerShot SX740 HS"
         required_keywords: ["SX740"]
-        price_min: 75000
-        price_max: 85999
+        price_min: 0
+        price_max: 999999999
