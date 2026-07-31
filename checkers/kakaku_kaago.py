@@ -32,6 +32,5 @@ def check(site_config: dict) -> dict:
     else:
         detail = f"¥{price_min:,}〜¥{price_max:,}の範囲の価格は見つからず"
 
-    # 価格帯内の最安値を price として返す（通知メッセージ用）
     price = matched[0] if matched else None
     return {"in_stock": in_stock, "price": price, "detail": detail, "url": url}
