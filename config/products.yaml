@@ -32,8 +32,8 @@ products:
 
       - site: kakaku_kaago
         url: "https://kakaku.com/item/J0000030692/"
-        price_min: 140000
-        price_max: 179999
+        price_min: 0
+        price_max: 999999999
 
   - id: sx740hs
     name: "PowerShot SX740 HS"
