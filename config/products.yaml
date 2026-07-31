@@ -9,43 +9,117 @@
 #   3. ここの sites に site: "yodobashi" として追加する
 #
 # 各サイトの item:
-#   site      : checkers/ 内のモジュール名（canon_official, yamada, biccamera, kakaku_kaago）
-#   url       : 監視したい商品ページのURL
-#   price_min / price_max : 価格帯で絞り込みたい場合のみ指定（kakaku_kaago で使用）
+#   site      : checkers/ 内のモジュール名（kaago）
+#   url       : 監視したいショップの商品ページURL
+#   price_min / price_max : 価格帯で絞り込みたい場合のみ指定（kaago で使用）
 #
-# url が空文字("")の項目はスキップされます（未確定のURLを後から埋める用）。
+# 注記: Kaago(kaago.com)は1つのURLに全ショップの価格が集約されて
+# いるわけではなく、ショップごとに個別の商品ページがある。そのため
+# 同じ商品でも複数のショップURLを別々の項目として登録している。
+#
+# 注記2: キヤノン公式・ヤマダウェブコム・ビックカメラはBot対策で
+# GitHub Actionsからの取得がブロックされる（または不安定な誤検知を返す）
+# ことが確認できたため、この3サイトの監視は SIGNAL WebAlert 側に任せている。
 
 products:
   - id: g7x_mark3
     name: "PowerShot G7 X Mark III"
     sites:
-      - site: canon_official
-        url: "https://store.canon.jp/online/g/gPS-G7XMK3-001/"
+      - site: kaago
+        # 沙羅の木 plus（ブラック）
+        url: "https://kaago.com/sharanoki-plus/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743"
+        price_min: 140000
+        price_max: 179999
 
-      - site: yamada
-        url: "https://www.yamada-denkiweb.com/4152311014"
+      - site: kaago
+        # エスセール（ブラック）
+        url: "https://kaago.com/kaagos-saletokka/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=7350071077819"
+        price_min: 140000
+        price_max: 179999
 
-      - site: biccamera
-        url: "https://www.biccamera.com/bc/item/6944999/"
+      - site: kaago
+        # 沙羅の木（ブラック）
+        url: "https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743"
+        price_min: 140000
+        price_max: 179999
 
-      - site: kakaku_kaago
-        url: "https://kakaku.com/item/J0000030692/"
+      - site: kaago
+        # 沙羅の木（シルバー）
+        url: "https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292137804"
+        price_min: 140000
+        price_max: 179999
+
+      - site: kaago
+        # Fresh shop（ブラック）
+        url: "https://kaago.com/fresh345/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=6921489901820"
+        price_min: 140000
+        price_max: 179999
+
+      - site: kaago
+        # デジスタイル（シルバー）
+        url: "https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871"
         price_min: 140000
         price_max: 179999
 
   - id: sx740hs
     name: "PowerShot SX740 HS"
     sites:
-      - site: canon_official
-        url: "https://store.canon.jp/online/g/gPS-SX740-003/"
+      - site: kaago
+        # 測定の森（シルバー）
+        url: "https://kaago.com/sokutei/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060"
+        price_min: 75000
+        price_max: 85999
 
-      - site: yamada
-        url: ""
+      - site: kaago
+        # 沙羅の木（シルバー）
+        url: "https://kaago.com/sharanoki/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060"
+        price_min: 75000
+        price_max: 85999
 
-      - site: biccamera
-        url: "https://www.biccamera.com/bc/item/5574356/"
+      - site: kaago
+        # 沙羅の木 plus（シルバー）
+        url: "https://kaago.com/sharanoki-plus/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4549292119060"
+        price_min: 75000
+        price_max: 85999
 
-      - site: kakaku_kaago
-        url: "https://kakaku.com/item/K0001076574/"
-        price_min: 0
-        price_max: 999999999
+      - site: kaago
+        # 沙羅の木（ブラック）
+        url: "https://kaago.com/sharanoki/PowerShot-SX740-HS-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292119008"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # アーチホールセール（シルバー）
+        url: "https://kaago.com/arch8215/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=9700000002406"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # Powershop JPN（シルバー）
+        url: "https://kaago.com/powershop/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=4984824418708"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # Get-on Store（シルバー）
+        url: "https://kaago.com/getonstore/PowerShot-SX740-HS-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000001434"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # 家電のSAKURAchacha（シルバー）
+        url: "https://kaago.com/chachacom/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC-PS-SX740HS-SL%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000122792"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # 家電のSAKURAchacha（ブラック）
+        url: "https://kaago.com/chachacom/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF-PS-SX740HS-BK%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000122793"
+        price_min: 75000
+        price_max: 85999
+
+      - site: kaago
+        # SAKURA MOMO（シルバー）
+        url: "https://kaago.com/momolife/%E3%82%AD%E3%83%A4%E3%83%8E%E3%83%B3%E3%80%90CANON%E3%80%91%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9-PowerShot-SX740-HS-%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC-PS-SX740HS-SL%E2%98%85%E3%80%90SX740-HS%E3%80%91/?itemcode=0000000121632"
+        price_min: 75000
+        price_max: 85999
