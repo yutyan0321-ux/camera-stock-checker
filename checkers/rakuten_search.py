@@ -123,13 +123,22 @@ def check(site_config: dict) -> dict:
     in_stock = len(found) > 0
 
     if found:
-        title, item_url, price = found[0]
-        detail = f"{len(found)}件の該当出品を検出。例: {title} ¥{price:,}"
+        # 転売目的での利用を想定し、最も安い出品を優先して知らせる。
+        found.sort(key=lambda item: item[2])
+        cheapest_title, cheapest_url, cheapest_price = found[0]
+
+        top_candidates = found[:5]
+        candidates_text = " / ".join(
+            f"{t} ¥{p:,}" for t, _, p in top_candidates
+        )
+        detail = (
+            f"{len(found)}件の該当出品を検出（安い順）: {candidates_text}"
+        )
         return {
             "in_stock": True,
-            "price": price,
+            "price": cheapest_price,
             "detail": detail,
-            "url": item_url,
+            "url": cheapest_url,
         }
     else:
         detail = f"¥{price_min:,}〜¥{price_max:,}の範囲で該当する新品出品なし"
