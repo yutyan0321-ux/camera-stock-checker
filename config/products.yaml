@@ -23,8 +23,6 @@ products:
         url: "https://store.canon.jp/online/g/gPS-G7XMK3-001/"
 
       - site: yamada
-        # シルバーのページ。ブラックも監視したい場合はURLを調べて
-        # 下に項目を追加してください（同じ site: yamada でOK）。
         url: "https://www.yamada-denkiweb.com/4152311014"
 
       - site: biccamera
@@ -32,8 +30,8 @@ products:
 
       - site: kakaku_kaago
         url: "https://kakaku.com/item/J0000030692/"
-        price_min: 0
-        price_max: 999999999
+        price_min: 140000
+        price_max: 179999
 
   - id: sx740hs
     name: "PowerShot SX740 HS"
@@ -42,9 +40,6 @@ products:
         url: "https://store.canon.jp/online/g/gPS-SX740-003/"
 
       - site: yamada
-        # TODO: ヤマダウェブコムのSX740 HS商品ページURLが未確定です。
-        # https://www.yamada-denkiweb.com/ で検索して商品ページURLを
-        # ここに入れてください（例: https://www.yamada-denkiweb.com/xxxxxxxxx）
         url: ""
 
       - site: biccamera
