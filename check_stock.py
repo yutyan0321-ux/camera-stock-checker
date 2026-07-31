@@ -13,6 +13,7 @@ CHECKERS 辞書だけを見ればよい（判定ロジック自体は checkers/ 
 import json
 import os
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -35,6 +36,11 @@ CHECKERS = {
 BASE_DIR = Path(__file__).parent
 CONFIG_FILE = BASE_DIR / "config" / "products.yaml"
 STATE_FILE = BASE_DIR / "state.json"
+
+# 履歴として保持する最大件数（これを超えたら古いものから消す）
+HISTORY_LIMIT = 20
+
+JST = timezone(timedelta(hours=9))
 
 LINE_CHANNEL_ACCESS_TOKEN = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
 
@@ -79,7 +85,8 @@ def main() -> int:
     config = load_config()
     previous_state = load_previous_state()
     new_state = {}
-    notifications = []  # (product_name, site_key, result) のリスト
+    notifications = []  # (product_name, site_key, result, count) のリスト
+    broken_links = []  # (product_name, site_key, url) のリスト
 
     for product in config["products"]:
         product_id = product["id"]
@@ -89,6 +96,7 @@ def main() -> int:
             site_key = site_entry["site"]
             url = site_entry.get("url", "")
             state_key = f"{product_id}:{site_key}:{url}"
+            error_key = f"{state_key}#error"
 
             if not url:
                 print(f"[skip] {product_name} / {site_key}: URL未設定")
@@ -102,10 +110,22 @@ def main() -> int:
             try:
                 result = checker(site_entry)
             except Exception as e:
-                print(f"[error] {product_name} / {site_key} の取得に失敗: {e}")
+                error_str = str(e)
+                print(f"[error] {product_name} / {site_key} の取得に失敗: {error_str}")
                 # 失敗時は前回状態を維持して次回に持ち越す
                 new_state[state_key] = previous_state.get(state_key, False)
+
+                # 404は「ページ自体が無くなった」ことを示す。一時的な通信
+                # エラー（タイムアウト等）と区別し、404に変わった最初の
+                # タイミングだけ警告する（毎回通知が来るとうるさいため）。
+                is_broken = "404" in error_str
+                was_broken = previous_state.get(error_key, False)
+                new_state[error_key] = is_broken
+                if is_broken and not was_broken:
+                    broken_links.append((product_name, site_key, url))
                 continue
+
+            new_state[error_key] = False
 
             in_stock = result["in_stock"]
             was_in_stock = previous_state.get(state_key, False)
@@ -116,15 +136,50 @@ def main() -> int:
                 f"(前回: {was_in_stock}) {result.get('detail', '')}"
             )
 
+            # 「在庫なし → 在庫あり」に変わった回数を累計でカウントする。
+            # どのショップがよく入荷するかを、しばらく運用した後に
+            # state.json を見れば振り返られるようにするため。
+            count_key = f"{state_key}#count"
+            count = previous_state.get(count_key, 0)
+
+            # 検知した日時(JST)と価格の履歴も直近 HISTORY_LIMIT 件だけ残す。
+            # 「いつ・いくらで出やすいか」の傾向をあとから振り返るため。
+            history_key = f"{state_key}#history"
+            history = previous_state.get(history_key, [])
+
             if in_stock and not was_in_stock:
-                notifications.append((product_name, site_key, result))
+                count += 1
+                detected_at = datetime.now(JST).strftime("%Y-%m-%d %H:%M")
+                history = history + [
+                    {"date": detected_at, "price": result.get("price")}
+                ]
+                history = history[-HISTORY_LIMIT:]
+                notifications.append((product_name, site_key, result, count))
+
+            new_state[count_key] = count
+            new_state[history_key] = history
+
+    lines = []
 
     if notifications:
-        lines = ["【在庫検知】"]
-        for product_name, site_key, result in notifications:
+        lines.append("【在庫検知】")
+        for product_name, site_key, result, count in notifications:
             price_part = f" ¥{result['price']:,}" if result.get("price") else ""
-            lines.append(f"■ {product_name} ({site_key}){price_part}")
+            lines.append(
+                f"■ {product_name} ({site_key}){price_part} "
+                f"(累計入荷検知: {count}回)"
+            )
             lines.append(result["url"])
+
+    if broken_links:
+        if lines:
+            lines.append("")
+        lines.append("【⚠ リンク切れの可能性】ショップの入れ替えをご検討ください")
+        for product_name, site_key, url in broken_links:
+            lines.append(f"■ {product_name} ({site_key})")
+            lines.append(url)
+
+    if lines:
         send_line_broadcast("\n".join(lines))
         print("通知を送信しました")
 
