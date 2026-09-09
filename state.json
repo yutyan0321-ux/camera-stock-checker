@@ -26,12 +26,16 @@
     }
   ],
   "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871#error": false,
-  "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871": false,
-  "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871#count": 1,
+  "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871": true,
+  "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871#count": 2,
   "g7x_mark3:kaago:https://kaago.com/digi-style/CANON-PowerShot-G7-X-Mark-III-%5B%E3%82%B7%E3%83%AB%E3%83%90%E3%83%BC%5D/?itemcode=0000000013871#history": [
     {
       "date": "2026-09-07 02:10",
       "price": 179998
+    },
+    {
+      "date": "2026-09-09 18:00",
+      "price": 177828
     }
   ],
   "g7x_mark3:rakuten_search:PowerShot G7 X Mark III#error": false,
