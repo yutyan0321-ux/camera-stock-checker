@@ -8,11 +8,15 @@
   "g7x_mark3:kaago:https://kaago.com/kaagos-saletokka/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=7350071077819#count": 0,
   "g7x_mark3:kaago:https://kaago.com/kaagos-saletokka/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=7350071077819#history": [],
   "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743#error": false,
-  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743": false,
-  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743#count": 1,
+  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743": true,
+  "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743#count": 2,
   "g7x_mark3:kaago:https://kaago.com/sharanoki/PowerShot-G7-X-Mark-III-%5B%E3%83%96%E3%83%A9%E3%83%83%E3%82%AF%5D/?itemcode=4549292137743#history": [
     {
       "date": "2026-09-08 16:10",
+      "price": 179580
+    },
+    {
+      "date": "2026-09-10 12:10",
       "price": 179580
     }
   ],
